@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>自己紹介</title>
+  <title>アニメ解説ページ</title>
   <style>
     * {
       box-sizing: border-box;
@@ -116,9 +116,9 @@
       gap: 32px;
     }
 
-    .profile {
+    .guide-hero {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) 220px;
+      grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
       gap: 40px;
       align-items: center;
       padding: 42px;
@@ -127,6 +127,44 @@
       background: linear-gradient(135deg, rgba(7, 8, 12, 0.82), rgba(18, 8, 10, 0.62));
       box-shadow: 0 28px 84px var(--shadow), inset 0 1px 0 rgba(255, 255, 255, 0.08);
       backdrop-filter: blur(18px);
+    }
+
+    .hero-panel {
+      min-width: 0;
+    }
+
+    .quick-facts {
+      display: grid;
+      gap: 14px;
+      padding: 22px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .fact {
+      display: grid;
+      grid-template-columns: 88px 1fr;
+      gap: 12px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .fact:last-child {
+      padding-bottom: 0;
+      border-bottom: 0;
+    }
+
+    .fact dt {
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .fact dd {
+      margin: 0;
+      color: var(--text);
+      font-weight: 700;
     }
 
     .eyebrow {
@@ -165,58 +203,90 @@
       font-size: clamp(17px, 2vw, 22px);
     }
 
-    .avatar {
-      position: relative;
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 24px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      padding: 6px 12px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 999px;
+      color: var(--accent-cold);
+      background: rgba(255, 255, 255, 0.06);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .overview-grid {
       display: grid;
-      place-items: center;
-      justify-self: end;
-      width: 220px;
-      aspect-ratio: 1;
-      border: 1px solid rgba(255, 255, 255, 0.24);
-      border-radius: 18px;
-      color: #ffffff;
-      background:
-        linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 122, 24, 0.18)),
-        radial-gradient(circle at 34% 26%, rgba(255, 255, 255, 0.24), transparent 30%),
-        linear-gradient(135deg, #171923, #08090d 62%, #2a090e);
-      box-shadow: 0 22px 56px rgba(0, 0, 0, 0.36), 0 0 34px rgba(255, 122, 24, 0.16);
-      font-size: 72px;
-      font-weight: 900;
-      overflow: hidden;
+      grid-template-columns: minmax(0, 1fr) minmax(260px, 0.52fr);
+      gap: 16px;
     }
 
-    .avatar::before,
-    .avatar::after {
-      position: absolute;
-      content: "";
-      background: rgba(255, 255, 255, 0.84);
-      box-shadow: 0 0 22px rgba(255, 255, 255, 0.56);
-      transform: rotate(-28deg);
+    .story-points {
+      display: grid;
+      gap: 12px;
+      margin: 18px 0 0;
+      padding: 0;
+      list-style: none;
     }
 
-    .avatar::before {
-      width: 180%;
-      height: 4px;
-    }
-
-    .avatar::after {
-      width: 120%;
-      height: 1px;
-      top: 72%;
-    }
-
-    .avatar span {
+    .story-points li {
       position: relative;
-      z-index: 1;
+      padding-left: 24px;
+      color: var(--muted);
     }
 
-    .sections {
+    .story-points li::before {
+      position: absolute;
+      top: 11px;
+      left: 0;
+      width: 12px;
+      height: 2px;
+      content: "";
+      background: var(--accent);
+      box-shadow: 0 0 14px rgba(255, 122, 24, 0.7);
+    }
+
+    .timeline {
+      display: grid;
+      gap: 14px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .timeline li {
+      padding-left: 16px;
+      border-left: 2px solid rgba(255, 122, 24, 0.72);
+    }
+
+    .timeline strong {
+      display: block;
+      color: #ffffff;
+      font-size: 15px;
+    }
+
+    .timeline span {
+      display: block;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .characters {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 16px;
     }
 
-    section {
+    section,
+    .character-card {
       min-height: 210px;
       padding: 24px;
       border: 1px solid var(--line);
@@ -226,10 +296,70 @@
       backdrop-filter: blur(14px);
     }
 
+    .section-heading {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 16px;
+      margin-top: 8px;
+    }
+
     h2 {
       margin: 0 0 12px;
       color: #ffffff;
       font-size: 20px;
+    }
+
+    .section-heading h2 {
+      margin-bottom: 0;
+      font-size: 26px;
+    }
+
+    .section-heading p {
+      max-width: 460px;
+      font-size: 14px;
+    }
+
+    .character-card {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .character-card::before {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 88px;
+      height: 4px;
+      content: "";
+      background: linear-gradient(90deg, transparent, var(--accent));
+    }
+
+    .character-mark {
+      display: grid;
+      place-items: center;
+      width: 46px;
+      height: 46px;
+      margin-bottom: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 12px;
+      color: #08090d;
+      background: linear-gradient(135deg, #fffaf2, var(--accent));
+      font-weight: 900;
+    }
+
+    .character-name {
+      margin: 0;
+      color: #ffffff;
+      font-size: 22px;
+      line-height: 1.25;
+    }
+
+    .character-role {
+      margin: 6px 0 12px;
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 800;
     }
 
     p {
@@ -247,6 +377,16 @@
 
     li::marker {
       color: var(--accent);
+    }
+
+    .terms {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .term {
+      min-height: 150px;
     }
 
     a {
@@ -310,19 +450,18 @@
     }
 
     @media (max-width: 820px) {
-      .profile {
+      .guide-hero,
+      .overview-grid {
         grid-template-columns: 1fr;
         padding: 28px;
       }
 
-      .avatar {
-        justify-self: start;
-        width: 144px;
-        border-radius: 16px;
-        font-size: 48px;
+      .overview-grid {
+        padding: 0;
       }
 
-      .sections {
+      .characters,
+      .terms {
         grid-template-columns: 1fr;
       }
     }
@@ -338,9 +477,13 @@
         gap: 16px;
       }
 
-      .profile,
+      .guide-hero,
       section {
         border-radius: 14px;
+      }
+
+      .section-heading {
+        display: block;
       }
 
       .blade-scene {
@@ -403,39 +546,166 @@
 
   <main>
     <div class="hero">
-      <header class="profile">
-        <div>
-          <p class="eyebrow">Blade Profile</p>
-          <h1>あなたの名前</h1>
-          <p class="lead">鋭い刀のシルエットと斬撃の光が走る、ダークで和風アニメ調の自己紹介ページです。</p>
+      <header class="guide-hero">
+        <div class="hero-panel">
+          <p class="eyebrow">Anime Guide</p>
+          <h1>斬影の守り人</h1>
+          <p class="lead">
+            刀を手にした少年が、現世と異界の境界で仲間と出会い、守る意味を知っていく
+            ダークファンタジーアニメの解説ページです。
+          </p>
+          <div class="tag-row" aria-label="ジャンル">
+            <span class="tag">バトル</span>
+            <span class="tag">和風ファンタジー</span>
+            <span class="tag">成長物語</span>
+            <span class="tag">仲間との絆</span>
+          </div>
         </div>
-        <div class="avatar"><span>名</span></div>
+        <dl class="quick-facts">
+          <div class="fact">
+            <dt>舞台</dt>
+            <dd>現代都市と異界</dd>
+          </div>
+          <div class="fact">
+            <dt>主人公</dt>
+            <dd>黒瀬レン</dd>
+          </div>
+          <div class="fact">
+            <dt>見どころ</dt>
+            <dd>刀の戦闘、覚醒、宿命の対決</dd>
+          </div>
+          <div class="fact">
+            <dt>雰囲気</dt>
+            <dd>クールで重厚、時々熱い</dd>
+          </div>
+        </dl>
       </header>
 
-      <div class="sections">
+      <div class="overview-grid">
         <section>
-          <h2>自己紹介</h2>
+          <h2>作品概要</h2>
           <p>
-            はじめまして。Web制作やプログラミングに興味があります。
-            新しいことを学びながら、自分らしい作品を作っていきたいです。
+            平凡な高校生だった黒瀬レンは、街に現れる異形の存在「影鬼」と遭遇する。
+            謎の剣士・白月ミオに助けられたことで、自分の中に眠る霊力と古い契約を知り、
+            刀を通して人の心に残る後悔や願いと向き合っていく。
           </p>
-        </section>
-
-        <section>
-          <h2>好きなこと</h2>
-          <ul>
-            <li>音楽を聴くこと</li>
-            <li>カフェで作業すること</li>
-            <li>新しい技術を試すこと</li>
+          <ul class="story-points">
+            <li>序盤は主人公が力に振り回されながら、守る対象を見つけていく。</li>
+            <li>中盤は異界組織との衝突で、仲間それぞれの過去が明かされる。</li>
+            <li>終盤は主人公の力の正体と、敵対者の目的が物語の軸になる。</li>
           </ul>
         </section>
 
         <section>
-          <h2>連絡先</h2>
+          <h2>物語の流れ</h2>
+          <ul class="timeline">
+            <li>
+              <strong>覚醒編</strong>
+              <span>レンが刀の力に目覚め、影鬼との戦いに巻き込まれる。</span>
+            </li>
+            <li>
+              <strong>異界潜入編</strong>
+              <span>仲間を救うため、異界の砦へ向かう。</span>
+            </li>
+            <li>
+              <strong>真名解放編</strong>
+              <span>刀の名と自分の弱さを受け入れ、力の使い方を選ぶ。</span>
+            </li>
+          </ul>
+        </section>
+      </div>
+
+      <div class="section-heading">
+        <h2>キャラクター解説</h2>
+        <p>主要キャラクターの役割、性格、物語で注目したいポイントを短く整理しています。</p>
+      </div>
+
+      <div class="characters">
+        <article class="character-card">
+          <div class="character-mark">主</div>
+          <h3 class="character-name">黒瀬レン</h3>
+          <p class="character-role">主人公 / 未熟な剣士</p>
           <p>
-            Email:
-            <a href="mailto:your.name@example.com">your.name@example.com</a>
+            正義感は強いが、自分の力に自信を持てない少年。
+            戦いを重ねるほど、敵を倒すだけでは救えないものがあると学んでいく。
           </p>
+        </article>
+
+        <article class="character-card">
+          <div class="character-mark">導</div>
+          <h3 class="character-name">白月ミオ</h3>
+          <p class="character-role">案内役 / 静かな実力者</p>
+          <p>
+            異界から来た剣士。感情を表に出さないが、仲間を守る意思は誰よりも強い。
+            レンに戦い方だけでなく、覚悟の持ち方を教える。
+          </p>
+        </article>
+
+        <article class="character-card">
+          <div class="character-mark">友</div>
+          <h3 class="character-name">鳴海ソウ</h3>
+          <p class="character-role">相棒 / ムードメーカー</p>
+          <p>
+            レンの幼なじみ。軽い言動が多いが、観察力に優れ、仲間の迷いに最初に気づく。
+            戦闘では支援役として活躍する。
+          </p>
+        </article>
+
+        <article class="character-card">
+          <div class="character-mark">敵</div>
+          <h3 class="character-name">灰原ギン</h3>
+          <p class="character-role">ライバル / 境界を越えた者</p>
+          <p>
+            レンと同じ力を持ちながら、守ることを捨てた剣士。
+            冷酷に見える行動の裏に、失った仲間への執着を抱えている。
+          </p>
+        </article>
+
+        <article class="character-card">
+          <div class="character-mark">隊</div>
+          <h3 class="character-name">東雲カナメ</h3>
+          <p class="character-role">隊長 / 判断役</p>
+          <p>
+            異界の討伐隊を率いる人物。厳格だが、若い剣士の可能性を見抜く目を持つ。
+            物語では組織の理屈と個人の感情の間で揺れる。
+          </p>
+        </article>
+
+        <article class="character-card">
+          <div class="character-mark">影</div>
+          <h3 class="character-name">影鬼</h3>
+          <p class="character-role">敵存在 / 心の残響</p>
+          <p>
+            人の未練や怒りから生まれる異形の存在。
+            単なる敵ではなく、登場人物の過去や弱さを映す存在として描かれる。
+          </p>
+        </article>
+      </div>
+
+      <div class="section-heading">
+        <h2>用語メモ</h2>
+        <p>世界観を理解するためのキーワードをまとめています。</p>
+      </div>
+
+      <div class="terms">
+        <section class="term">
+          <h2>霊刀</h2>
+          <p>使い手の心に反応して形や力が変化する刀。真の力を引き出すには名前を知る必要がある。</p>
+        </section>
+
+        <section class="term">
+          <h2>影鬼</h2>
+          <p>人の強い感情が異界の力と混ざって生まれる存在。斬るだけでは解決しない場合もある。</p>
+        </section>
+
+        <section class="term">
+          <h2>境界門</h2>
+          <p>現世と異界をつなぐ門。物語の大きな事件は、この門の異常から始まる。</p>
+        </section>
+
+        <section class="term">
+          <h2>真名解放</h2>
+          <p>霊刀の名前を呼び、使い手の本質に応じた能力を解き放つ奥義。</p>
         </section>
       </div>
     </div>
