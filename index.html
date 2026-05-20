@@ -279,7 +279,7 @@
 
     .overview-grid {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(260px, 0.52fr);
+      grid-template-columns: minmax(0, 1fr);
       gap: 16px;
     }
 
@@ -333,6 +333,48 @@
       font-size: 14px;
     }
 
+    .series-list {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .series-card {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .series-card::before {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      content: "";
+      background: linear-gradient(90deg, var(--accent), transparent);
+    }
+
+    .series-number {
+      display: inline-flex;
+      align-items: center;
+      min-height: 30px;
+      margin-bottom: 16px;
+      padding: 4px 10px;
+      border: 1px solid rgba(255, 122, 24, 0.42);
+      border-radius: 999px;
+      color: var(--accent);
+      background: rgba(255, 122, 24, 0.1);
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .series-title {
+      margin: 0 0 10px;
+      color: #ffffff;
+      font-size: 22px;
+      line-height: 1.28;
+    }
+
     .characters {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -340,6 +382,7 @@
     }
 
     section,
+    .series-card,
     .character-card {
       min-height: 210px;
       padding: 24px;
@@ -526,6 +569,7 @@
         padding: 0;
       }
 
+      .series-list,
       .characters,
       .terms {
         grid-template-columns: 1fr;
@@ -653,6 +697,7 @@
 
       <nav class="view-nav" aria-label="ページ切り替え" role="tablist">
         <button class="view-tab is-active" type="button" role="tab" data-view-target="overview" aria-controls="overview-view" aria-selected="true">作品概要</button>
+        <button class="view-tab" type="button" role="tab" data-view-target="series" aria-controls="series-view" aria-selected="false">シリーズ</button>
         <button class="view-tab" type="button" role="tab" data-view-target="characters" aria-controls="characters-view" aria-selected="false">キャラクター解説</button>
         <button class="view-tab" type="button" role="tab" data-view-target="terms" aria-controls="terms-view" aria-selected="false">用語メモ</button>
       </nav>
@@ -672,23 +717,41 @@
               <li>終盤は主人公の力の正体と、敵対者の目的が物語の軸になる。</li>
             </ul>
           </section>
+        </div>
+      </div>
 
-          <section>
-            <h2>物語の流れ</h2>
-            <ul class="timeline">
-              <li>
-                <strong>覚醒編</strong>
-                <span>レンが刀の力に目覚め、影鬼との戦いに巻き込まれる。</span>
-              </li>
-              <li>
-                <strong>異界潜入編</strong>
-                <span>仲間を救うため、異界の砦へ向かう。</span>
-              </li>
-              <li>
-                <strong>真名解放編</strong>
-                <span>刀の名と自分の弱さを受け入れ、力の使い方を選ぶ。</span>
-              </li>
-            </ul>
+      <div class="page-view" id="series-view" role="tabpanel" data-view="series" hidden>
+        <div class="section-heading">
+          <h2>シリーズ</h2>
+          <p>物語を編ごとに分けて、どこで何が起きるのかを追いやすく整理しています。</p>
+        </div>
+
+        <div class="series-list">
+          <section class="series-card">
+            <span class="series-number">Series 01</span>
+            <h3 class="series-title">覚醒編</h3>
+            <p>
+              レンが刀の力に目覚め、影鬼との戦いに巻き込まれる導入編。
+              力を得た理由と、守りたいものを見つけるまでが描かれる。
+            </p>
+          </section>
+
+          <section class="series-card">
+            <span class="series-number">Series 02</span>
+            <h3 class="series-title">異界潜入編</h3>
+            <p>
+              仲間を救うため、レンたちは異界の砦へ向かう。
+              敵組織の正体や、ミオが抱えてきた過去が少しずつ明かされる。
+            </p>
+          </section>
+
+          <section class="series-card">
+            <span class="series-number">Series 03</span>
+            <h3 class="series-title">真名解放編</h3>
+            <p>
+              刀の名と自分の弱さを受け入れ、レンが力の使い方を選ぶ終盤編。
+              灰原ギンとの対決を通して、守ることの意味が問われる。
+            </p>
           </section>
         </div>
       </div>
@@ -802,7 +865,7 @@
     const emberCount = 86;
     const viewTabs = document.querySelectorAll("[data-view-target]");
     const pageViews = document.querySelectorAll("[data-view]");
-    const validViews = ["overview", "characters", "terms"];
+    const validViews = ["overview", "series", "characters", "terms"];
 
     function setActiveView(viewName, shouldUpdateHash = true) {
       const nextView = validViews.includes(viewName) ? viewName : "overview";
