@@ -11,28 +11,56 @@
 
     :root {
       color-scheme: dark;
+      --body-font: "Inter", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+      --display-font: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+      --japanese-font: "Hiragino Mincho Pro", "Yu Mincho", "Yu Mincho Medium", serif;
       --text: #fffaf2;
       --muted: #c5c8cc;
       --line: rgba(255, 255, 255, 0.18);
-      --panel: rgba(7, 8, 12, 0.68);
+      --panel: rgba(7, 8, 12, 0.72);
+      --bg: #000000;
+      --bg-image: radial-gradient(circle at 72% 30%, rgba(255, 255, 255, 0.12), transparent 12rem),
+        radial-gradient(circle at 15% 22%, rgba(217, 38, 61, 0.22), transparent 24rem),
+        radial-gradient(circle at 88% 84%, rgba(255, 122, 24, 0.18), transparent 26rem),
+        linear-gradient(135deg, #050507 0%, #0e1018 46%, #16080b 100%);
+      --bg-before: linear-gradient(115deg, transparent 0 45%, rgba(255, 255, 255, 0.1) 46%, transparent 48%),
+        linear-gradient(70deg, transparent 0 54%, rgba(255, 122, 24, 0.12) 55%, transparent 57%),
+        radial-gradient(circle, rgba(255, 255, 255, 0.12) 1px, transparent 1px);
+      --bg-after: conic-gradient(from 40deg at 50% 50%, #030305, #171923, #3b090f, #ff7a18, #030305);
       --accent: #ff7a18;
-      --accent-cold: #d9f7ff;
+      --accent-cold: #33d7ff;
+      --accent-alt: #9f48ff;
       --red: #d9263d;
       --shadow: rgba(0, 0, 0, 0.48);
+    }
+
+    .theme-light {
+      color-scheme: light;
+      --text: #101628;
+      --muted: #505d79;
+      --line: rgba(15, 23, 58, 0.12);
+      --panel: rgba(255, 255, 255, 0.94);
+      --bg: #f5f7ff;
+      --bg-image: radial-gradient(circle at 20% 20%, rgba(51, 215, 255, 0.14), transparent 12rem),
+        radial-gradient(circle at 85% 22%, rgba(159, 72, 255, 0.12), transparent 16rem),
+        radial-gradient(circle at 30% 85%, rgba(255, 122, 24, 0.08), transparent 22rem),
+        linear-gradient(135deg, #f8faff 0%, #eef4ff 48%, #f5f7ff 100%);
+      --bg-before: linear-gradient(115deg, transparent 0 45%, rgba(15, 23, 58, 0.08) 46%, transparent 48%),
+        linear-gradient(70deg, transparent 0 54%, rgba(51, 215, 255, 0.14) 55%, transparent 57%),
+        radial-gradient(circle, rgba(15, 23, 58, 0.04) 1px, transparent 1px);
+      --bg-after: conic-gradient(from 40deg at 50% 50%, #f8fbff, #d9edff, rgba(51, 215, 255, 0.18), rgba(159, 72, 255, 0.14), #f8fbff);
+      --shadow: rgba(15, 23, 58, 0.12);
     }
 
     body {
       min-height: 100vh;
       margin: 0;
       overflow-x: hidden;
-      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-family: var(--body-font);
       line-height: 1.7;
       color: var(--text);
-      background:
-        radial-gradient(circle at 72% 30%, rgba(255, 255, 255, 0.12), transparent 12rem),
-        radial-gradient(circle at 15% 22%, rgba(217, 38, 61, 0.22), transparent 24rem),
-        radial-gradient(circle at 88% 84%, rgba(255, 122, 24, 0.18), transparent 26rem),
-        linear-gradient(135deg, #050507 0%, #0e1018 46%, #16080b 100%);
+      background: var(--bg-image);
+      background-color: var(--bg);
     }
 
     body::before {
@@ -40,13 +68,10 @@
       inset: 0;
       z-index: -3;
       content: "";
-      background-image:
-        linear-gradient(115deg, transparent 0 45%, rgba(255, 255, 255, 0.1) 46%, transparent 48%),
-        linear-gradient(70deg, transparent 0 54%, rgba(255, 122, 24, 0.12) 55%, transparent 57%),
-        radial-gradient(circle, rgba(255, 255, 255, 0.12) 1px, transparent 1px);
+      background-image: var(--bg-before);
       background-size: 260px 260px, 330px 330px, 34px 34px;
-      opacity: 0.58;
-      mask-image: linear-gradient(to bottom, transparent, #000 8%, #000 88%, transparent);
+      opacity: 0.65;
+      mask-image: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.22) 8%, rgba(0, 0, 0, 0.22) 88%, transparent);
       animation: speedLines 11s linear infinite;
     }
 
@@ -55,8 +80,7 @@
       inset: -24%;
       z-index: -4;
       content: "";
-      background:
-        conic-gradient(from 40deg at 50% 50%, #030305, #171923, #3b090f, #ff7a18, #030305);
+      background: var(--bg-after);
       filter: blur(96px);
       opacity: 0.48;
       animation: inkAura 15s ease-in-out infinite alternate;
@@ -124,13 +148,78 @@
       padding: 42px;
       border: 1px solid var(--line);
       border-radius: 20px;
-      background: linear-gradient(135deg, rgba(7, 8, 12, 0.82), rgba(18, 8, 10, 0.62));
+      background: var(--panel);
       box-shadow: 0 28px 84px var(--shadow), inset 0 1px 0 rgba(255, 255, 255, 0.08);
       backdrop-filter: blur(18px);
     }
 
     .hero-panel {
       min-width: 0;
+    }
+
+    .theme-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      margin: 24px 0 0;
+      font-family: var(--display-font);
+      font-style: italic;
+      font-weight: 800;
+      color: var(--accent-cold);
+    }
+
+    .theme-switch {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .theme-switch-input {
+      position: absolute;
+      opacity: 0;
+      width: 1px;
+      height: 1px;
+      margin: 0;
+      pointer-events: none;
+    }
+
+    .switch-track {
+      display: inline-flex;
+      align-items: center;
+      width: 48px;
+      height: 26px;
+      padding: 3px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      transition: background 180ms ease, border-color 180ms ease;
+    }
+
+    .switch-thumb {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 16px rgba(255, 122, 24, 0.45);
+      transition: transform 180ms ease, background 180ms ease;
+    }
+
+    .theme-switch-input:checked + .switch-track .switch-thumb {
+      transform: translateX(22px);
+      background: var(--accent-cold);
+      box-shadow: 0 0 18px rgba(51, 215, 255, 0.6);
+    }
+
+    .theme-switch-input:checked + .switch-track {
+      background: rgba(51, 215, 255, 0.18);
+      border-color: rgba(51, 215, 255, 0.22);
+    }
+
+    .theme-switch .mode-label {
+      white-space: nowrap;
     }
 
     .quick-facts {
@@ -189,11 +278,19 @@
 
     h1 {
       margin: 0;
-      color: #ffffff;
+      color: var(--text);
+      font-family: var(--japanese-font);
       font-size: clamp(42px, 9vw, 96px);
       line-height: 0.98;
       letter-spacing: 0;
       text-shadow: 0 0 24px rgba(255, 122, 24, 0.22);
+    }
+
+    h2 {
+      margin: 0 0 12px;
+      color: var(--text);
+      font-family: var(--japanese-font);
+      font-weight: 700;
     }
 
     .lead {
@@ -219,6 +316,8 @@
       border-radius: 999px;
       color: var(--accent-cold);
       background: rgba(255, 255, 255, 0.06);
+      font-family: var(--display-font);
+      font-style: italic;
       font-size: 13px;
       font-weight: 800;
     }
@@ -230,7 +329,7 @@
       padding: 10px;
       border: 1px solid var(--line);
       border-radius: 16px;
-      background: rgba(7, 8, 12, 0.62);
+      background: var(--panel);
       box-shadow: 0 18px 60px rgba(0, 0, 0, 0.24);
       backdrop-filter: blur(14px);
     }
@@ -245,7 +344,8 @@
       border-radius: 999px;
       color: var(--muted);
       background: rgba(255, 255, 255, 0.04);
-      font: inherit;
+      font-family: var(--display-font);
+      font-style: italic;
       font-size: 14px;
       font-weight: 800;
       cursor: pointer;
@@ -364,6 +464,8 @@
       border-radius: 999px;
       color: var(--accent);
       background: rgba(255, 122, 24, 0.1);
+      font-family: var(--display-font);
+      font-style: italic;
       font-size: 12px;
       font-weight: 900;
     }
@@ -388,8 +490,8 @@
       padding: 24px;
       border: 1px solid var(--line);
       border-radius: 16px;
-      background: rgba(7, 8, 12, 0.62);
-      box-shadow: 0 18px 60px rgba(0, 0, 0, 0.26);
+      background: var(--panel);
+      box-shadow: 0 18px 60px var(--shadow);
       backdrop-filter: blur(14px);
     }
 
@@ -442,6 +544,8 @@
       border-radius: 12px;
       color: #08090d;
       background: linear-gradient(135deg, #fffaf2, var(--accent));
+      font-family: var(--display-font);
+      font-style: italic;
       font-weight: 900;
     }
 
@@ -638,7 +742,7 @@
       <path d="M112 214 C364 114 642 118 1004 58" fill="none" stroke="url(#edgeGlow)" stroke-width="3"/>
     </g>
     <g class="slash-mark" filter="url(#hotGlow)">
-      <path d="M70 560 C282 436 570 404 1015 310" fill="none" stroke="#d9f7ff" stroke-opacity="0.56" stroke-width="2"/>
+      <path d="M70 560 C282 436 570 404 1015 310" fill="none" stroke="#33d7ff" stroke-opacity="0.62" stroke-width="2"/>
     </g>
     <g class="slash-mark" filter="url(#hotGlow)">
       <path d="M270 742 C455 548 650 408 1110 174" fill="none" stroke="#ff7a18" stroke-opacity="0.62" stroke-width="4"/>
@@ -663,6 +767,15 @@
       <header class="guide-hero">
         <div class="hero-panel">
           <p class="eyebrow">Anime Guide</p>
+          <div class="theme-toggle">
+            <label class="theme-switch">
+              <input id="theme-toggle" class="theme-switch-input" type="checkbox" aria-label="テーマ切り替え" />
+              <span class="switch-track" aria-hidden="true">
+                <span class="switch-thumb"></span>
+              </span>
+              <span class="mode-label">死神モード</span>
+            </label>
+          </div>
           <h1>斬影の守り人</h1>
           <p class="lead">
             刀を手にした少年が、現世と異界の境界で仲間と出会い、守る意味を知っていく
@@ -860,7 +973,30 @@
     const canvas = document.getElementById("motion-bg");
     const ctx = canvas.getContext("2d");
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const themeToggle = document.getElementById("theme-toggle");
+    const themeLabel = document.querySelector(".mode-label");
     const embers = [];
+
+    function setTheme(isLight) {
+      document.documentElement.classList.toggle("theme-light", isLight);
+      themeToggle.checked = isLight;
+      themeToggle.setAttribute("aria-pressed", String(isLight));
+      themeLabel.textContent = isLight ? "滅却師モード" : "死神モード";
+      localStorage.setItem("site-theme", isLight ? "light" : "dark");
+    }
+
+    function initializeTheme() {
+      const savedTheme = localStorage.getItem("site-theme");
+      const prefersLight = window.matchMedia("(prefers-color-scheme: light)").matches;
+      const isLight = savedTheme ? savedTheme === "light" : prefersLight;
+      setTheme(isLight);
+    }
+
+    themeToggle.addEventListener("change", () => {
+      setTheme(themeToggle.checked);
+    });
+
+    initializeTheme();
     const slashes = [];
     const emberCount = 86;
     const viewTabs = document.querySelectorAll("[data-view-target]");
@@ -926,13 +1062,14 @@
     }
 
     function addSlash() {
+      const roll = Math.random();
       slashes.push({
         x: Math.random() * window.innerWidth * 0.72,
         y: Math.random() * window.innerHeight,
         length: Math.random() * 220 + 180,
         life: 0,
         maxLife: 34,
-        color: Math.random() > 0.45 ? "255, 122, 24" : "217, 247, 255"
+        color: roll > 0.65 ? "255, 122, 24" : roll > 0.35 ? "51, 215, 255" : "159, 72, 255"
       });
     }
 
