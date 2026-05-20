@@ -976,25 +976,46 @@
     const themeToggle = document.getElementById("theme-toggle");
     const themeLabel = document.querySelector(".mode-label");
     const embers = [];
+    let cachedTheme = null;
 
     function setTheme(isLight) {
       document.documentElement.classList.toggle("theme-light", isLight);
-      themeToggle.checked = isLight;
-      themeToggle.setAttribute("aria-pressed", String(isLight));
-      themeLabel.textContent = isLight ? "滅却師モード" : "死神モード";
-      localStorage.setItem("site-theme", isLight ? "light" : "dark");
+      cachedTheme = isLight ? "light" : "dark";
+
+      if (themeToggle) {
+        themeToggle.checked = isLight;
+        themeToggle.setAttribute("aria-pressed", String(isLight));
+      }
+
+      if (themeLabel) {
+        themeLabel.textContent = isLight ? "滅却師モード" : "死神モード";
+      }
+
+      try {
+        localStorage.setItem("site-theme", cachedTheme);
+      } catch (error) {
+        console.warn("Unable to save theme preference:", error);
+      }
     }
 
     function initializeTheme() {
-      const savedTheme = localStorage.getItem("site-theme");
+      let savedTheme = null;
+      try {
+        savedTheme = localStorage.getItem("site-theme");
+      } catch (error) {
+        // ignore localStorage errors in restrictive browsers
+      }
+
       const prefersLight = window.matchMedia("(prefers-color-scheme: light)").matches;
       const isLight = savedTheme ? savedTheme === "light" : prefersLight;
       setTheme(isLight);
     }
 
-    themeToggle.addEventListener("change", () => {
-      setTheme(themeToggle.checked);
-    });
+    if (themeToggle) {
+      themeToggle.addEventListener("change", () => {
+        setTheme(themeToggle.checked);
+      });
+    }
 
     initializeTheme();
     const slashes = [];
