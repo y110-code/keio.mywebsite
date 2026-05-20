@@ -290,10 +290,10 @@
     }
 
     .menu-overlay,
-    .page-loader {
+    .page-loader,
+    .opening-overlay {
       position: fixed;
       inset: 0;
-      z-index: 30;
       display: grid;
       place-items: center;
       background: rgba(0, 0, 0, 0.92);
@@ -302,10 +302,136 @@
       transition: opacity 200ms ease;
     }
 
+    .opening-overlay {
+      z-index: 120;
+      background: #000;
+      overflow: hidden;
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .opening-overlay.is-hidden,
     .menu-overlay.is-open,
     .page-loader.is-visible {
       opacity: 1;
       pointer-events: auto;
+    }
+
+    .opening-overlay.is-hidden {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 260ms ease 0.2s;
+    }
+
+    .opening-backdrop {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, #000 0%, #090a0f 48%, #120f18 100%);
+      opacity: 1;
+    }
+
+    .opening-wrap {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      gap: 24px;
+      align-items: center;
+      justify-items: center;
+      text-align: center;
+      color: #fff;
+    }
+
+    .opening-sword {
+      width: 12px;
+      height: 220px;
+      opacity: 0;
+      transform: translateY(24px) scale(0.9);
+      background: linear-gradient(180deg, #ffffff 0%, #ff7a18 50%, #9f48ff 100%);
+      border-radius: 999px;
+      box-shadow: 0 0 22px rgba(255, 122, 24, 0.7), 0 0 28px rgba(159, 72, 255, 0.35);
+      animation: openingSwordIn 1s ease forwards 0.24s;
+    }
+
+    .opening-sword::before {
+      content: "";
+      position: absolute;
+      top: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 36px;
+      height: 18px;
+      background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0) 68%);
+      border-radius: 999px;
+    }
+
+    .opening-sword::after {
+      content: "";
+      position: absolute;
+      bottom: -22px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 22px;
+      height: 22px;
+      background: radial-gradient(circle, #ff7a18, #9f48ff);
+      border-radius: 50%;
+      box-shadow: 0 0 24px rgba(255, 122, 24, 0.65), 0 0 34px rgba(159, 72, 255, 0.35);
+    }
+
+    .opening-copy {
+      margin: 0;
+      color: #fff;
+      font-family: var(--display-font);
+      font-style: italic;
+      font-size: clamp(18px, 2.2vw, 24px);
+      letter-spacing: 0.2em;
+      opacity: 0;
+      transform: translateY(12px);
+      animation: openingCopyIn 0.9s ease forwards 0.9s;
+    }
+
+    .opening-split {
+      position: absolute;
+      left: 0;
+      width: 100%;
+      height: 50%;
+      background: #000;
+      z-index: 4;
+    }
+
+    .opening-split-top {
+      top: 0;
+      animation: openingSplitTop 0.8s ease forwards 1.8s;
+    }
+
+    .opening-split-bottom {
+      bottom: 0;
+      animation: openingSplitBottom 0.8s ease forwards 1.8s;
+    }
+
+    @keyframes openingSwordIn {
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @keyframes openingCopyIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes openingSplitTop {
+      to {
+        transform: translateY(-100%);
+      }
+    }
+
+    @keyframes openingSplitBottom {
+      to {
+        transform: translateY(100%);
+      }
     }
 
     .menu-panel {
@@ -924,6 +1050,15 @@
   </style>
 </head>
 <body>
+  <div class="opening-overlay" aria-hidden="true">
+    <div class="opening-backdrop"></div>
+    <div class="opening-wrap">
+      <div class="opening-sword" aria-hidden="true"></div>
+      <p class="opening-copy">斬り開く、黒の幕</p>
+    </div>
+    <div class="opening-split opening-split-top"></div>
+    <div class="opening-split opening-split-bottom"></div>
+  </div>
   <canvas id="motion-bg" aria-hidden="true"></canvas>
   <svg class="blade-scene" viewBox="0 0 1200 800" aria-hidden="true">
     <defs>
@@ -1217,9 +1352,11 @@
     const menuLinks = document.querySelectorAll(".menu-link");
     const menuClose = document.querySelector(".menu-close");
     const pageLoader = document.querySelector(".page-loader");
+    const openingOverlay = document.querySelector(".opening-overlay");
     const embers = [];
     let cachedTheme = null;
     let loaderTimeout = null;
+    let openingTimeout = null;
 
     function setTheme(isLight) {
       document.documentElement.classList.toggle("theme-light", isLight);
@@ -1252,6 +1389,26 @@
       const prefersLight = window.matchMedia("(prefers-color-scheme: light)").matches;
       const isLight = savedTheme ? savedTheme === "light" : prefersLight;
       setTheme(isLight);
+    }
+
+    function playOpeningAnimation() {
+      if (!openingOverlay) {
+        return;
+      }
+
+      if (reduceMotion.matches) {
+        openingOverlay.classList.add("is-hidden");
+        openingOverlay.setAttribute("aria-hidden", "true");
+        return;
+      }
+
+      openingOverlay.classList.remove("is-hidden");
+      openingOverlay.setAttribute("aria-hidden", "false");
+      window.clearTimeout(openingTimeout);
+      openingTimeout = window.setTimeout(() => {
+        openingOverlay.classList.add("is-hidden");
+        openingOverlay.setAttribute("aria-hidden", "true");
+      }, 2400);
     }
 
     function toggleMenu(open) {
@@ -1310,6 +1467,11 @@
     });
 
     initializeTheme();
+    if (document.readyState === "complete") {
+      playOpeningAnimation();
+    } else {
+      window.addEventListener("load", playOpeningAnimation);
+    }
     const slashes = [];
     const emberCount = 86;
     const viewTabs = document.querySelectorAll("[data-view-target]");
