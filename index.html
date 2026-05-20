@@ -11,13 +11,14 @@
 
     :root {
       color-scheme: dark;
-      --text: #f7f7f2;
-      --muted: #b9c1c9;
-      --line: rgba(255, 255, 255, 0.16);
-      --panel: rgba(8, 12, 18, 0.62);
-      --accent: #36d1dc;
-      --accent-strong: #ffb86c;
-      --shadow: rgba(0, 0, 0, 0.36);
+      --text: #fffaf2;
+      --muted: #c5c8cc;
+      --line: rgba(255, 255, 255, 0.18);
+      --panel: rgba(7, 8, 12, 0.68);
+      --accent: #ff7a18;
+      --accent-cold: #d9f7ff;
+      --red: #d9263d;
+      --shadow: rgba(0, 0, 0, 0.48);
     }
 
     body {
@@ -28,43 +29,78 @@
       line-height: 1.7;
       color: var(--text);
       background:
-        radial-gradient(circle at 16% 12%, rgba(54, 209, 220, 0.28), transparent 32rem),
-        radial-gradient(circle at 86% 18%, rgba(255, 184, 108, 0.2), transparent 28rem),
-        linear-gradient(135deg, #070910 0%, #111827 45%, #101114 100%);
+        radial-gradient(circle at 72% 30%, rgba(255, 255, 255, 0.12), transparent 12rem),
+        radial-gradient(circle at 15% 22%, rgba(217, 38, 61, 0.22), transparent 24rem),
+        radial-gradient(circle at 88% 84%, rgba(255, 122, 24, 0.18), transparent 26rem),
+        linear-gradient(135deg, #050507 0%, #0e1018 46%, #16080b 100%);
     }
 
     body::before {
       position: fixed;
       inset: 0;
-      z-index: -2;
+      z-index: -3;
       content: "";
       background-image:
-        linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
-      background-size: 54px 54px;
-      mask-image: linear-gradient(to bottom, transparent, #000 14%, #000 82%, transparent);
-      animation: gridMove 18s linear infinite;
+        linear-gradient(115deg, transparent 0 45%, rgba(255, 255, 255, 0.1) 46%, transparent 48%),
+        linear-gradient(70deg, transparent 0 54%, rgba(255, 122, 24, 0.12) 55%, transparent 57%),
+        radial-gradient(circle, rgba(255, 255, 255, 0.12) 1px, transparent 1px);
+      background-size: 260px 260px, 330px 330px, 34px 34px;
+      opacity: 0.58;
+      mask-image: linear-gradient(to bottom, transparent, #000 8%, #000 88%, transparent);
+      animation: speedLines 11s linear infinite;
     }
 
     body::after {
       position: fixed;
-      inset: -30%;
-      z-index: -3;
+      inset: -24%;
+      z-index: -4;
       content: "";
       background:
-        conic-gradient(from 180deg at 50% 50%, #121827, #164e63, #3b1f45, #4a2c18, #121827);
-      filter: blur(90px);
-      opacity: 0.52;
-      animation: aurora 16s ease-in-out infinite alternate;
+        conic-gradient(from 40deg at 50% 50%, #030305, #171923, #3b090f, #ff7a18, #030305);
+      filter: blur(96px);
+      opacity: 0.48;
+      animation: inkAura 15s ease-in-out infinite alternate;
     }
 
-    #motion-bg {
+    #motion-bg,
+    .blade-scene {
       position: fixed;
       inset: 0;
-      z-index: -1;
       width: 100%;
       height: 100%;
       pointer-events: none;
+    }
+
+    #motion-bg {
+      z-index: -1;
+    }
+
+    .blade-scene {
+      z-index: -2;
+      opacity: 0.94;
+    }
+
+    .moon {
+      filter: drop-shadow(0 0 42px rgba(255, 255, 255, 0.45));
+      opacity: 0.74;
+    }
+
+    .sword {
+      transform-origin: 760px 390px;
+      animation: swordFloat 7s ease-in-out infinite alternate;
+    }
+
+    .slash-mark {
+      opacity: 0.58;
+      animation: slashPulse 3.6s ease-in-out infinite;
+    }
+
+    .slash-mark:nth-of-type(2) {
+      animation-delay: 1.2s;
+    }
+
+    .slash-mark:nth-of-type(3) {
+      animation-delay: 2.1s;
     }
 
     main {
@@ -87,9 +123,9 @@
       align-items: center;
       padding: 42px;
       border: 1px solid var(--line);
-      border-radius: 24px;
-      background: var(--panel);
-      box-shadow: 0 28px 80px var(--shadow);
+      border-radius: 20px;
+      background: linear-gradient(135deg, rgba(7, 8, 12, 0.82), rgba(18, 8, 10, 0.62));
+      box-shadow: 0 28px 84px var(--shadow), inset 0 1px 0 rgba(255, 255, 255, 0.08);
       backdrop-filter: blur(18px);
     }
 
@@ -100,25 +136,26 @@
       margin: 0 0 18px;
       color: var(--accent);
       font-size: 13px;
-      font-weight: 700;
+      font-weight: 800;
       letter-spacing: 0;
       text-transform: uppercase;
     }
 
     .eyebrow::before {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
+      width: 28px;
+      height: 2px;
       content: "";
-      background: var(--accent);
-      box-shadow: 0 0 18px var(--accent);
+      background: linear-gradient(90deg, var(--accent), var(--accent-cold));
+      box-shadow: 0 0 18px rgba(255, 122, 24, 0.9);
     }
 
     h1 {
       margin: 0;
+      color: #ffffff;
       font-size: clamp(42px, 9vw, 96px);
       line-height: 0.98;
       letter-spacing: 0;
+      text-shadow: 0 0 24px rgba(255, 122, 24, 0.22);
     }
 
     .lead {
@@ -129,21 +166,48 @@
     }
 
     .avatar {
+      position: relative;
       display: grid;
       place-items: center;
       justify-self: end;
       width: 220px;
       aspect-ratio: 1;
       border: 1px solid rgba(255, 255, 255, 0.24);
-      border-radius: 28px;
-      color: #061117;
+      border-radius: 18px;
+      color: #ffffff;
       background:
-        linear-gradient(135deg, rgba(255, 255, 255, 0.94), rgba(255, 255, 255, 0.6)),
-        radial-gradient(circle at 24% 18%, var(--accent), transparent 34%),
-        radial-gradient(circle at 82% 80%, var(--accent-strong), transparent 38%);
-      box-shadow: 0 22px 56px rgba(0, 0, 0, 0.32);
+        linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 122, 24, 0.18)),
+        radial-gradient(circle at 34% 26%, rgba(255, 255, 255, 0.24), transparent 30%),
+        linear-gradient(135deg, #171923, #08090d 62%, #2a090e);
+      box-shadow: 0 22px 56px rgba(0, 0, 0, 0.36), 0 0 34px rgba(255, 122, 24, 0.16);
       font-size: 72px;
-      font-weight: 800;
+      font-weight: 900;
+      overflow: hidden;
+    }
+
+    .avatar::before,
+    .avatar::after {
+      position: absolute;
+      content: "";
+      background: rgba(255, 255, 255, 0.84);
+      box-shadow: 0 0 22px rgba(255, 255, 255, 0.56);
+      transform: rotate(-28deg);
+    }
+
+    .avatar::before {
+      width: 180%;
+      height: 4px;
+    }
+
+    .avatar::after {
+      width: 120%;
+      height: 1px;
+      top: 72%;
+    }
+
+    .avatar span {
+      position: relative;
+      z-index: 1;
     }
 
     .sections {
@@ -156,9 +220,9 @@
       min-height: 210px;
       padding: 24px;
       border: 1px solid var(--line);
-      border-radius: 18px;
-      background: rgba(8, 12, 18, 0.52);
-      box-shadow: 0 18px 60px rgba(0, 0, 0, 0.22);
+      border-radius: 16px;
+      background: rgba(7, 8, 12, 0.62);
+      box-shadow: 0 18px 60px rgba(0, 0, 0, 0.26);
       backdrop-filter: blur(14px);
     }
 
@@ -181,30 +245,57 @@
       color: var(--muted);
     }
 
-    a {
+    li::marker {
       color: var(--accent);
-      font-weight: 700;
+    }
+
+    a {
+      color: var(--accent-cold);
+      font-weight: 800;
       text-decoration-thickness: 2px;
       text-underline-offset: 5px;
     }
 
-    @keyframes gridMove {
+    @keyframes speedLines {
       from {
-        background-position: 0 0;
+        background-position: 0 0, 0 0, 0 0;
       }
 
       to {
-        background-position: 54px 54px;
+        background-position: 260px 260px, -330px 330px, 34px 34px;
       }
     }
 
-    @keyframes aurora {
+    @keyframes inkAura {
       from {
-        transform: rotate(0deg) scale(1);
+        transform: rotate(-8deg) scale(1);
       }
 
       to {
-        transform: rotate(18deg) scale(1.18);
+        transform: rotate(13deg) scale(1.17);
+      }
+    }
+
+    @keyframes swordFloat {
+      from {
+        transform: translateY(-8px) rotate(-1.5deg);
+      }
+
+      to {
+        transform: translateY(10px) rotate(1.5deg);
+      }
+    }
+
+    @keyframes slashPulse {
+      0%,
+      100% {
+        opacity: 0.2;
+        transform: translateX(-18px);
+      }
+
+      45% {
+        opacity: 0.78;
+        transform: translateX(18px);
       }
     }
 
@@ -227,7 +318,7 @@
       .avatar {
         justify-self: start;
         width: 144px;
-        border-radius: 22px;
+        border-radius: 16px;
         font-size: 48px;
       }
 
@@ -249,22 +340,76 @@
 
       .profile,
       section {
-        border-radius: 16px;
+        border-radius: 14px;
+      }
+
+      .blade-scene {
+        width: 170%;
+        transform: translateX(-34%);
       }
     }
   </style>
 </head>
 <body>
   <canvas id="motion-bg" aria-hidden="true"></canvas>
+  <svg class="blade-scene" viewBox="0 0 1200 800" aria-hidden="true">
+    <defs>
+      <linearGradient id="bladeSteel" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#ffffff"/>
+        <stop offset="46%" stop-color="#bfc9d3"/>
+        <stop offset="54%" stop-color="#ffffff"/>
+        <stop offset="100%" stop-color="#58616b"/>
+      </linearGradient>
+      <linearGradient id="edgeGlow" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#fffaf2" stop-opacity="0"/>
+        <stop offset="50%" stop-color="#fffaf2"/>
+        <stop offset="100%" stop-color="#ff7a18" stop-opacity="0.76"/>
+      </linearGradient>
+      <filter id="hotGlow">
+        <feGaussianBlur stdDeviation="6" result="blur"/>
+        <feMerge>
+          <feMergeNode in="blur"/>
+          <feMergeNode in="SourceGraphic"/>
+        </feMerge>
+      </filter>
+    </defs>
+
+    <circle class="moon" cx="930" cy="170" r="86" fill="rgba(255,255,255,0.76)"/>
+    <path d="M-20 620 C180 530 290 710 470 606 C650 502 765 565 920 470 C1040 396 1120 420 1235 360 L1235 820 L-20 820 Z" fill="rgba(0,0,0,0.36)"/>
+
+    <g class="slash-mark" filter="url(#hotGlow)">
+      <path d="M112 214 C364 114 642 118 1004 58" fill="none" stroke="url(#edgeGlow)" stroke-width="3"/>
+    </g>
+    <g class="slash-mark" filter="url(#hotGlow)">
+      <path d="M70 560 C282 436 570 404 1015 310" fill="none" stroke="#d9f7ff" stroke-opacity="0.56" stroke-width="2"/>
+    </g>
+    <g class="slash-mark" filter="url(#hotGlow)">
+      <path d="M270 742 C455 548 650 408 1110 174" fill="none" stroke="#ff7a18" stroke-opacity="0.62" stroke-width="4"/>
+    </g>
+
+    <g class="sword" filter="url(#hotGlow)">
+      <g transform="translate(710 390) rotate(-32)">
+        <path d="M-520 -15 L298 -15 L392 0 L298 15 L-520 15 Z" fill="url(#bladeSteel)"/>
+        <path d="M-500 -2 L344 -2" stroke="#ffffff" stroke-width="3" stroke-opacity="0.86"/>
+        <path d="M-510 14 L302 14" stroke="#12151d" stroke-width="4" stroke-opacity="0.7"/>
+        <rect x="-590" y="-48" width="62" height="96" rx="8" fill="#111318" stroke="#fffaf2" stroke-opacity="0.34"/>
+        <rect x="-692" y="-17" width="110" height="34" rx="10" fill="#15171f" stroke="#ff7a18" stroke-opacity="0.52"/>
+        <path d="M-690 -16 L-584 16 M-672 -16 L-566 16 M-654 -16 L-548 16" stroke="#ff7a18" stroke-width="3" stroke-opacity="0.68"/>
+        <circle cx="-528" cy="0" r="40" fill="none" stroke="#fffaf2" stroke-width="8" stroke-opacity="0.5"/>
+        <circle cx="-528" cy="0" r="24" fill="none" stroke="#ff7a18" stroke-width="3" stroke-opacity="0.84"/>
+      </g>
+    </g>
+  </svg>
+
   <main>
     <div class="hero">
       <header class="profile">
         <div>
-          <p class="eyebrow">Self Introduction</p>
+          <p class="eyebrow">Blade Profile</p>
           <h1>あなたの名前</h1>
-          <p class="lead">こんにちは。動きのある背景とシンプルな情報で見せる、自己紹介ページです。</p>
+          <p class="lead">鋭い刀のシルエットと斬撃の光が走る、ダークで和風アニメ調の自己紹介ページです。</p>
         </div>
-        <div class="avatar">名</div>
+        <div class="avatar"><span>名</span></div>
       </header>
 
       <div class="sections">
@@ -300,8 +445,9 @@
     const canvas = document.getElementById("motion-bg");
     const ctx = canvas.getContext("2d");
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const particles = [];
-    const particleCount = 72;
+    const embers = [];
+    const slashes = [];
+    const emberCount = 86;
 
     function resizeCanvas() {
       const ratio = Math.min(window.devicePixelRatio || 1, 2);
@@ -312,65 +458,100 @@
       ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
     }
 
-    function createParticles() {
-      particles.length = 0;
-      for (let i = 0; i < particleCount; i += 1) {
-        particles.push({
+    function createEmbers() {
+      embers.length = 0;
+      for (let i = 0; i < emberCount; i += 1) {
+        embers.push({
           x: Math.random() * window.innerWidth,
           y: Math.random() * window.innerHeight,
-          radius: Math.random() * 2.4 + 0.8,
-          speedX: (Math.random() - 0.5) * 0.38,
-          speedY: (Math.random() - 0.5) * 0.38,
-          hue: Math.random() > 0.55 ? 187 : 34
+          size: Math.random() * 2.8 + 0.8,
+          speedX: Math.random() * 0.7 + 0.12,
+          speedY: -(Math.random() * 0.52 + 0.08),
+          hue: Math.random() > 0.25 ? 28 : 190,
+          alpha: Math.random() * 0.52 + 0.28
         });
+      }
+    }
+
+    function addSlash() {
+      slashes.push({
+        x: Math.random() * window.innerWidth * 0.72,
+        y: Math.random() * window.innerHeight,
+        length: Math.random() * 220 + 180,
+        life: 0,
+        maxLife: 34,
+        color: Math.random() > 0.45 ? "255, 122, 24" : "217, 247, 255"
+      });
+    }
+
+    function drawEmbers() {
+      embers.forEach((ember) => {
+        if (!reduceMotion.matches) {
+          ember.x += ember.speedX;
+          ember.y += ember.speedY;
+        }
+
+        if (ember.x > window.innerWidth + 20) ember.x = -20;
+        if (ember.y < -20) ember.y = window.innerHeight + 20;
+
+        ctx.beginPath();
+        ctx.arc(ember.x, ember.y, ember.size, 0, Math.PI * 2);
+        ctx.fillStyle = `hsla(${ember.hue}, 100%, 62%, ${ember.alpha})`;
+        ctx.shadowBlur = 18;
+        ctx.shadowColor = `hsla(${ember.hue}, 100%, 62%, 0.9)`;
+        ctx.fill();
+        ctx.shadowBlur = 0;
+      });
+    }
+
+    function drawSlashes() {
+      if (!reduceMotion.matches && Math.random() < 0.018) {
+        addSlash();
+      }
+
+      for (let i = slashes.length - 1; i >= 0; i -= 1) {
+        const slash = slashes[i];
+        slash.life += 1;
+        const progress = slash.life / slash.maxLife;
+        const alpha = Math.sin(progress * Math.PI) * 0.78;
+        const offset = progress * 120;
+
+        ctx.save();
+        ctx.translate(slash.x + offset, slash.y - offset * 0.42);
+        ctx.rotate(-0.44);
+        const gradient = ctx.createLinearGradient(0, 0, slash.length, 0);
+        gradient.addColorStop(0, `rgba(${slash.color}, 0)`);
+        gradient.addColorStop(0.48, `rgba(${slash.color}, ${alpha})`);
+        gradient.addColorStop(1, `rgba(${slash.color}, 0)`);
+        ctx.strokeStyle = gradient;
+        ctx.lineWidth = 3;
+        ctx.shadowBlur = 22;
+        ctx.shadowColor = `rgba(${slash.color}, ${alpha})`;
+        ctx.beginPath();
+        ctx.moveTo(0, 0);
+        ctx.lineTo(slash.length, 0);
+        ctx.stroke();
+        ctx.restore();
+
+        if (slash.life >= slash.maxLife) {
+          slashes.splice(i, 1);
+        }
       }
     }
 
     function draw() {
       ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-
-      particles.forEach((particle, index) => {
-        if (!reduceMotion.matches) {
-          particle.x += particle.speedX;
-          particle.y += particle.speedY;
-        }
-
-        if (particle.x < -20) particle.x = window.innerWidth + 20;
-        if (particle.x > window.innerWidth + 20) particle.x = -20;
-        if (particle.y < -20) particle.y = window.innerHeight + 20;
-        if (particle.y > window.innerHeight + 20) particle.y = -20;
-
-        ctx.beginPath();
-        ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
-        ctx.fillStyle = `hsla(${particle.hue}, 90%, 68%, 0.72)`;
-        ctx.shadowBlur = 16;
-        ctx.shadowColor = `hsla(${particle.hue}, 90%, 68%, 0.8)`;
-        ctx.fill();
-        ctx.shadowBlur = 0;
-
-        for (let j = index + 1; j < particles.length; j += 1) {
-          const other = particles[j];
-          const distance = Math.hypot(particle.x - other.x, particle.y - other.y);
-          if (distance < 128) {
-            ctx.beginPath();
-            ctx.moveTo(particle.x, particle.y);
-            ctx.lineTo(other.x, other.y);
-            ctx.strokeStyle = `rgba(255, 255, 255, ${0.12 * (1 - distance / 128)})`;
-            ctx.lineWidth = 1;
-            ctx.stroke();
-          }
-        }
-      });
-
+      drawEmbers();
+      drawSlashes();
       requestAnimationFrame(draw);
     }
 
     resizeCanvas();
-    createParticles();
+    createEmbers();
     draw();
     window.addEventListener("resize", () => {
       resizeCanvas();
-      createParticles();
+      createEmbers();
     });
   </script>
 </body>
