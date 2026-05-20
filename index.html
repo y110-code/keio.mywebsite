@@ -223,6 +223,60 @@
       font-weight: 800;
     }
 
+    .view-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(7, 8, 12, 0.62);
+      box-shadow: 0 18px 60px rgba(0, 0, 0, 0.24);
+      backdrop-filter: blur(14px);
+    }
+
+    .view-tab {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      padding: 8px 16px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 999px;
+      color: var(--muted);
+      background: rgba(255, 255, 255, 0.04);
+      font: inherit;
+      font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: background 180ms ease, border-color 180ms ease, color 180ms ease, transform 180ms ease;
+    }
+
+    .view-tab:hover,
+    .view-tab:focus-visible {
+      color: #ffffff;
+      border-color: rgba(255, 122, 24, 0.58);
+      outline: none;
+      transform: translateY(-1px);
+    }
+
+    .view-tab.is-active {
+      color: #08090d;
+      border-color: transparent;
+      background: linear-gradient(135deg, #fffaf2, var(--accent));
+      box-shadow: 0 0 28px rgba(255, 122, 24, 0.22);
+    }
+
+    .page-view {
+      display: grid;
+      gap: 24px;
+      animation: viewEnter 220ms ease both;
+    }
+
+    .page-view[hidden] {
+      display: none;
+    }
+
     .overview-grid {
       display: grid;
       grid-template-columns: minmax(0, 1fr) minmax(260px, 0.52fr);
@@ -439,6 +493,18 @@
       }
     }
 
+    @keyframes viewEnter {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
     @media (prefers-reduced-motion: reduce) {
       *,
       *::before,
@@ -484,6 +550,10 @@
 
       .section-heading {
         display: block;
+      }
+
+      .view-tab {
+        flex: 1 1 100%;
       }
 
       .blade-scene {
@@ -581,132 +651,144 @@
         </dl>
       </header>
 
-      <div class="overview-grid">
-        <section>
-          <h2>作品概要</h2>
-          <p>
-            平凡な高校生だった黒瀬レンは、街に現れる異形の存在「影鬼」と遭遇する。
-            謎の剣士・白月ミオに助けられたことで、自分の中に眠る霊力と古い契約を知り、
-            刀を通して人の心に残る後悔や願いと向き合っていく。
-          </p>
-          <ul class="story-points">
-            <li>序盤は主人公が力に振り回されながら、守る対象を見つけていく。</li>
-            <li>中盤は異界組織との衝突で、仲間それぞれの過去が明かされる。</li>
-            <li>終盤は主人公の力の正体と、敵対者の目的が物語の軸になる。</li>
-          </ul>
-        </section>
+      <nav class="view-nav" aria-label="ページ切り替え" role="tablist">
+        <button class="view-tab is-active" type="button" role="tab" data-view-target="overview" aria-controls="overview-view" aria-selected="true">作品概要</button>
+        <button class="view-tab" type="button" role="tab" data-view-target="characters" aria-controls="characters-view" aria-selected="false">キャラクター解説</button>
+        <button class="view-tab" type="button" role="tab" data-view-target="terms" aria-controls="terms-view" aria-selected="false">用語メモ</button>
+      </nav>
 
-        <section>
-          <h2>物語の流れ</h2>
-          <ul class="timeline">
-            <li>
-              <strong>覚醒編</strong>
-              <span>レンが刀の力に目覚め、影鬼との戦いに巻き込まれる。</span>
-            </li>
-            <li>
-              <strong>異界潜入編</strong>
-              <span>仲間を救うため、異界の砦へ向かう。</span>
-            </li>
-            <li>
-              <strong>真名解放編</strong>
-              <span>刀の名と自分の弱さを受け入れ、力の使い方を選ぶ。</span>
-            </li>
-          </ul>
-        </section>
+      <div class="page-view" id="overview-view" role="tabpanel" data-view="overview">
+        <div class="overview-grid">
+          <section>
+            <h2>作品概要</h2>
+            <p>
+              平凡な高校生だった黒瀬レンは、街に現れる異形の存在「影鬼」と遭遇する。
+              謎の剣士・白月ミオに助けられたことで、自分の中に眠る霊力と古い契約を知り、
+              刀を通して人の心に残る後悔や願いと向き合っていく。
+            </p>
+            <ul class="story-points">
+              <li>序盤は主人公が力に振り回されながら、守る対象を見つけていく。</li>
+              <li>中盤は異界組織との衝突で、仲間それぞれの過去が明かされる。</li>
+              <li>終盤は主人公の力の正体と、敵対者の目的が物語の軸になる。</li>
+            </ul>
+          </section>
+
+          <section>
+            <h2>物語の流れ</h2>
+            <ul class="timeline">
+              <li>
+                <strong>覚醒編</strong>
+                <span>レンが刀の力に目覚め、影鬼との戦いに巻き込まれる。</span>
+              </li>
+              <li>
+                <strong>異界潜入編</strong>
+                <span>仲間を救うため、異界の砦へ向かう。</span>
+              </li>
+              <li>
+                <strong>真名解放編</strong>
+                <span>刀の名と自分の弱さを受け入れ、力の使い方を選ぶ。</span>
+              </li>
+            </ul>
+          </section>
+        </div>
       </div>
 
-      <div class="section-heading">
-        <h2>キャラクター解説</h2>
-        <p>主要キャラクターの役割、性格、物語で注目したいポイントを短く整理しています。</p>
+      <div class="page-view" id="characters-view" role="tabpanel" data-view="characters" hidden>
+        <div class="section-heading">
+          <h2>キャラクター解説</h2>
+          <p>主要キャラクターの役割、性格、物語で注目したいポイントを短く整理しています。</p>
+        </div>
+
+        <div class="characters">
+          <article class="character-card">
+            <div class="character-mark">主</div>
+            <h3 class="character-name">黒瀬レン</h3>
+            <p class="character-role">主人公 / 未熟な剣士</p>
+            <p>
+              正義感は強いが、自分の力に自信を持てない少年。
+              戦いを重ねるほど、敵を倒すだけでは救えないものがあると学んでいく。
+            </p>
+          </article>
+
+          <article class="character-card">
+            <div class="character-mark">導</div>
+            <h3 class="character-name">白月ミオ</h3>
+            <p class="character-role">案内役 / 静かな実力者</p>
+            <p>
+              異界から来た剣士。感情を表に出さないが、仲間を守る意思は誰よりも強い。
+              レンに戦い方だけでなく、覚悟の持ち方を教える。
+            </p>
+          </article>
+
+          <article class="character-card">
+            <div class="character-mark">友</div>
+            <h3 class="character-name">鳴海ソウ</h3>
+            <p class="character-role">相棒 / ムードメーカー</p>
+            <p>
+              レンの幼なじみ。軽い言動が多いが、観察力に優れ、仲間の迷いに最初に気づく。
+              戦闘では支援役として活躍する。
+            </p>
+          </article>
+
+          <article class="character-card">
+            <div class="character-mark">敵</div>
+            <h3 class="character-name">灰原ギン</h3>
+            <p class="character-role">ライバル / 境界を越えた者</p>
+            <p>
+              レンと同じ力を持ちながら、守ることを捨てた剣士。
+              冷酷に見える行動の裏に、失った仲間への執着を抱えている。
+            </p>
+          </article>
+
+          <article class="character-card">
+            <div class="character-mark">隊</div>
+            <h3 class="character-name">東雲カナメ</h3>
+            <p class="character-role">隊長 / 判断役</p>
+            <p>
+              異界の討伐隊を率いる人物。厳格だが、若い剣士の可能性を見抜く目を持つ。
+              物語では組織の理屈と個人の感情の間で揺れる。
+            </p>
+          </article>
+
+          <article class="character-card">
+            <div class="character-mark">影</div>
+            <h3 class="character-name">影鬼</h3>
+            <p class="character-role">敵存在 / 心の残響</p>
+            <p>
+              人の未練や怒りから生まれる異形の存在。
+              単なる敵ではなく、登場人物の過去や弱さを映す存在として描かれる。
+            </p>
+          </article>
+        </div>
       </div>
 
-      <div class="characters">
-        <article class="character-card">
-          <div class="character-mark">主</div>
-          <h3 class="character-name">黒瀬レン</h3>
-          <p class="character-role">主人公 / 未熟な剣士</p>
-          <p>
-            正義感は強いが、自分の力に自信を持てない少年。
-            戦いを重ねるほど、敵を倒すだけでは救えないものがあると学んでいく。
-          </p>
-        </article>
+      <div class="page-view" id="terms-view" role="tabpanel" data-view="terms" hidden>
+        <div class="section-heading">
+          <h2>用語メモ</h2>
+          <p>世界観を理解するためのキーワードをまとめています。</p>
+        </div>
 
-        <article class="character-card">
-          <div class="character-mark">導</div>
-          <h3 class="character-name">白月ミオ</h3>
-          <p class="character-role">案内役 / 静かな実力者</p>
-          <p>
-            異界から来た剣士。感情を表に出さないが、仲間を守る意思は誰よりも強い。
-            レンに戦い方だけでなく、覚悟の持ち方を教える。
-          </p>
-        </article>
+        <div class="terms">
+          <section class="term">
+            <h2>霊刀</h2>
+            <p>使い手の心に反応して形や力が変化する刀。真の力を引き出すには名前を知る必要がある。</p>
+          </section>
 
-        <article class="character-card">
-          <div class="character-mark">友</div>
-          <h3 class="character-name">鳴海ソウ</h3>
-          <p class="character-role">相棒 / ムードメーカー</p>
-          <p>
-            レンの幼なじみ。軽い言動が多いが、観察力に優れ、仲間の迷いに最初に気づく。
-            戦闘では支援役として活躍する。
-          </p>
-        </article>
+          <section class="term">
+            <h2>影鬼</h2>
+            <p>人の強い感情が異界の力と混ざって生まれる存在。斬るだけでは解決しない場合もある。</p>
+          </section>
 
-        <article class="character-card">
-          <div class="character-mark">敵</div>
-          <h3 class="character-name">灰原ギン</h3>
-          <p class="character-role">ライバル / 境界を越えた者</p>
-          <p>
-            レンと同じ力を持ちながら、守ることを捨てた剣士。
-            冷酷に見える行動の裏に、失った仲間への執着を抱えている。
-          </p>
-        </article>
+          <section class="term">
+            <h2>境界門</h2>
+            <p>現世と異界をつなぐ門。物語の大きな事件は、この門の異常から始まる。</p>
+          </section>
 
-        <article class="character-card">
-          <div class="character-mark">隊</div>
-          <h3 class="character-name">東雲カナメ</h3>
-          <p class="character-role">隊長 / 判断役</p>
-          <p>
-            異界の討伐隊を率いる人物。厳格だが、若い剣士の可能性を見抜く目を持つ。
-            物語では組織の理屈と個人の感情の間で揺れる。
-          </p>
-        </article>
-
-        <article class="character-card">
-          <div class="character-mark">影</div>
-          <h3 class="character-name">影鬼</h3>
-          <p class="character-role">敵存在 / 心の残響</p>
-          <p>
-            人の未練や怒りから生まれる異形の存在。
-            単なる敵ではなく、登場人物の過去や弱さを映す存在として描かれる。
-          </p>
-        </article>
-      </div>
-
-      <div class="section-heading">
-        <h2>用語メモ</h2>
-        <p>世界観を理解するためのキーワードをまとめています。</p>
-      </div>
-
-      <div class="terms">
-        <section class="term">
-          <h2>霊刀</h2>
-          <p>使い手の心に反応して形や力が変化する刀。真の力を引き出すには名前を知る必要がある。</p>
-        </section>
-
-        <section class="term">
-          <h2>影鬼</h2>
-          <p>人の強い感情が異界の力と混ざって生まれる存在。斬るだけでは解決しない場合もある。</p>
-        </section>
-
-        <section class="term">
-          <h2>境界門</h2>
-          <p>現世と異界をつなぐ門。物語の大きな事件は、この門の異常から始まる。</p>
-        </section>
-
-        <section class="term">
-          <h2>真名解放</h2>
-          <p>霊刀の名前を呼び、使い手の本質に応じた能力を解き放つ奥義。</p>
-        </section>
+          <section class="term">
+            <h2>真名解放</h2>
+            <p>霊刀の名前を呼び、使い手の本質に応じた能力を解き放つ奥義。</p>
+          </section>
+        </div>
       </div>
     </div>
   </main>
@@ -718,6 +800,43 @@
     const embers = [];
     const slashes = [];
     const emberCount = 86;
+    const viewTabs = document.querySelectorAll("[data-view-target]");
+    const pageViews = document.querySelectorAll("[data-view]");
+    const validViews = ["overview", "characters", "terms"];
+
+    function setActiveView(viewName, shouldUpdateHash = true) {
+      const nextView = validViews.includes(viewName) ? viewName : "overview";
+
+      pageViews.forEach((view) => {
+        view.hidden = view.dataset.view !== nextView;
+      });
+
+      viewTabs.forEach((tab) => {
+        const isActive = tab.dataset.viewTarget === nextView;
+        tab.classList.toggle("is-active", isActive);
+        tab.setAttribute("aria-selected", String(isActive));
+      });
+
+      if (shouldUpdateHash && window.location.hash !== `#${nextView}`) {
+        history.pushState(null, "", `#${nextView}`);
+      }
+    }
+
+    viewTabs.forEach((tab) => {
+      tab.addEventListener("click", () => {
+        setActiveView(tab.dataset.viewTarget);
+      });
+    });
+
+    window.addEventListener("hashchange", () => {
+      setActiveView(window.location.hash.replace("#", ""), false);
+    });
+
+    window.addEventListener("popstate", () => {
+      setActiveView(window.location.hash.replace("#", ""), false);
+    });
+
+    setActiveView(window.location.hash.replace("#", ""), false);
 
     function resizeCanvas() {
       const ratio = Math.min(window.devicePixelRatio || 1, 2);
