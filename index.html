@@ -141,6 +141,7 @@
     }
 
     .guide-hero {
+      position: relative;
       display: grid;
       grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
       gap: 40px;
@@ -220,6 +221,217 @@
 
     .theme-switch .mode-label {
       white-space: nowrap;
+    }
+
+    .menu-toggle {
+      position: absolute;
+      top: 24px;
+      right: 24px;
+      display: grid;
+      place-items: center;
+      width: 52px;
+      height: 52px;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: rgba(7, 8, 12, 0.68);
+      color: var(--text);
+      cursor: pointer;
+      transition: transform 180ms ease, background 180ms ease, border-color 180ms ease;
+      z-index: 3;
+    }
+
+    .menu-toggle:hover {
+      transform: translateY(-1px);
+      border-color: var(--accent);
+    }
+
+    .menu-toggle .bar {
+      position: relative;
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--text);
+      border-radius: 999px;
+      transition: transform 240ms ease, opacity 240ms ease, background 180ms ease;
+    }
+
+    .menu-toggle .bar::before,
+    .menu-toggle .bar::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: inherit;
+      border-radius: inherit;
+      transition: transform 240ms ease, opacity 240ms ease, background 180ms ease;
+    }
+
+    .menu-toggle .bar::before {
+      transform: translateY(-8px);
+    }
+
+    .menu-toggle .bar::after {
+      transform: translateY(8px);
+    }
+
+    .menu-toggle.is-active .bar {
+      background: transparent;
+    }
+
+    .menu-toggle.is-active .bar::before {
+      transform: rotate(45deg) translate(1px, 1px);
+      background: var(--accent);
+    }
+
+    .menu-toggle.is-active .bar::after {
+      transform: rotate(-45deg) translate(1px, -1px);
+      background: var(--accent-alt);
+    }
+
+    .menu-overlay,
+    .page-loader {
+      position: fixed;
+      inset: 0;
+      z-index: 30;
+      display: grid;
+      place-items: center;
+      background: rgba(0, 0, 0, 0.92);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 200ms ease;
+    }
+
+    .menu-overlay.is-open,
+    .page-loader.is-visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .menu-panel {
+      width: min(420px, calc(100% - 48px));
+      padding: 40px 32px;
+      border-radius: 28px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(7, 8, 12, 0.96);
+      box-shadow: 0 28px 90px rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(24px);
+      text-align: center;
+    }
+
+    .menu-panel h2 {
+      margin: 0 0 24px;
+      color: var(--text);
+      font-size: 28px;
+      font-family: var(--display-font);
+      font-style: italic;
+      letter-spacing: 0.08em;
+    }
+
+    .menu-links {
+      display: grid;
+      gap: 14px;
+    }
+
+    .menu-link,
+    .menu-close {
+      width: 100%;
+      min-height: 48px;
+      border: 0;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(255, 122, 24, 0.18), rgba(159, 72, 255, 0.18));
+      color: var(--text);
+      font-family: var(--display-font);
+      font-style: italic;
+      font-size: 15px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform 180ms ease, filter 180ms ease;
+    }
+
+    .menu-link:hover,
+    .menu-close:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.08);
+    }
+
+    .menu-close {
+      margin-top: 22px;
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--muted);
+    }
+
+    .page-loader .loader-shell {
+      position: relative;
+      width: min(280px, calc(100% - 80px));
+      height: 140px;
+      border-radius: 120px 120px 32px 32px;
+      background: linear-gradient(180deg, #020203 0%, #090a11 100%);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: inset 0 0 28px rgba(255, 255, 255, 0.04), 0 0 120px rgba(0, 0, 0, 0.6);
+      overflow: hidden;
+    }
+
+    .page-loader .loader-shell::before {
+      content: "";
+      position: absolute;
+      top: -44px;
+      left: 50%;
+      width: 180px;
+      height: 120px;
+      transform: translateX(-50%);
+      border-radius: 50%;
+      background: radial-gradient(circle at 50% 40%, rgba(159, 72, 255, 0.82), transparent 52%);
+      filter: blur(10px);
+      opacity: 0.8;
+    }
+
+    .loader-eyes {
+      position: absolute;
+      top: 36px;
+      left: 50%;
+      display: flex;
+      gap: 22px;
+      transform: translateX(-50%);
+    }
+
+    .loader-eye {
+      width: 38px;
+      height: 18px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #33d7ff, #9f48ff);
+      box-shadow: 0 0 20px rgba(51, 215, 255, 0.65), 0 0 36px rgba(159, 72, 255, 0.3);
+      animation: eyeGlow 1.4s ease-in-out infinite;
+    }
+
+    .loader-eye:nth-child(2) {
+      animation-delay: 0.24s;
+    }
+
+    @keyframes eyeGlow {
+      0%, 100% {
+        transform: scaleX(0.96) scaleY(0.95);
+        opacity: 0.86;
+      }
+      50% {
+        transform: scaleX(1.1) scaleY(1.05);
+        opacity: 1;
+      }
+    }
+
+    @keyframes pageOpen {
+      from {
+        transform: scaleY(0.22) translateY(18px);
+        opacity: 0;
+      }
+      to {
+        transform: scaleY(1) translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .page-loader .loader-shell {
+      animation: pageOpen 420ms ease-out both;
     }
 
     .quick-facts {
@@ -762,11 +974,36 @@
     </g>
   </svg>
 
+  <div class="menu-overlay" aria-hidden="true">
+    <div class="menu-panel" role="dialog" aria-modal="true" aria-labelledby="menu-title">
+      <h2 id="menu-title">黒腔メニュー</h2>
+      <div class="menu-links">
+        <button class="menu-link" type="button" data-view-target="overview">作品概要</button>
+        <button class="menu-link" type="button" data-view-target="series">シリーズ</button>
+        <button class="menu-link" type="button" data-view-target="characters">キャラクター解説</button>
+        <button class="menu-link" type="button" data-view-target="terms">用語メモ</button>
+      </div>
+      <button class="menu-close" type="button">閉じる</button>
+    </div>
+  </div>
+
+  <div class="page-loader" aria-hidden="true" role="status" aria-live="polite">
+    <div class="loader-shell">
+      <div class="loader-eyes">
+        <span class="loader-eye"></span>
+        <span class="loader-eye"></span>
+      </div>
+    </div>
+  </div>
+
   <main>
     <div class="hero">
       <header class="guide-hero">
         <div class="hero-panel">
           <p class="eyebrow">Anime Guide</p>
+          <button class="menu-toggle" type="button" aria-label="メニューを開く" aria-expanded="false">
+            <span class="bar"></span>
+          </button>
           <div class="theme-toggle">
             <label class="theme-switch">
               <input id="theme-toggle" class="theme-switch-input" type="checkbox" aria-label="テーマ切り替え" />
@@ -975,8 +1212,14 @@
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     const themeToggle = document.getElementById("theme-toggle");
     const themeLabel = document.querySelector(".mode-label");
+    const menuToggle = document.querySelector(".menu-toggle");
+    const menuOverlay = document.querySelector(".menu-overlay");
+    const menuLinks = document.querySelectorAll(".menu-link");
+    const menuClose = document.querySelector(".menu-close");
+    const pageLoader = document.querySelector(".page-loader");
     const embers = [];
     let cachedTheme = null;
+    let loaderTimeout = null;
 
     function setTheme(isLight) {
       document.documentElement.classList.toggle("theme-light", isLight);
@@ -1011,11 +1254,60 @@
       setTheme(isLight);
     }
 
+    function toggleMenu(open) {
+      const isOpen = typeof open === "boolean" ? open : !menuOverlay.classList.contains("is-open");
+      menuOverlay.classList.toggle("is-open", isOpen);
+      menuToggle?.classList.toggle("is-active", isOpen);
+      menuToggle?.setAttribute("aria-expanded", String(isOpen));
+      menuOverlay.setAttribute("aria-hidden", String(!isOpen));
+    }
+
+    function showLoader(callback) {
+      if (!pageLoader) {
+        callback();
+        return;
+      }
+
+      pageLoader.classList.add("is-visible");
+      pageLoader.setAttribute("aria-hidden", "false");
+      window.clearTimeout(loaderTimeout);
+      loaderTimeout = window.setTimeout(() => {
+        pageLoader.classList.remove("is-visible");
+        pageLoader.setAttribute("aria-hidden", "true");
+        callback();
+      }, 640);
+    }
+
+    function transitionToView(viewName) {
+      showLoader(() => {
+        setActiveView(viewName);
+      });
+    }
+
     if (themeToggle) {
       themeToggle.addEventListener("change", () => {
         setTheme(themeToggle.checked);
       });
     }
+
+    if (menuToggle) {
+      menuToggle.addEventListener("click", () => toggleMenu());
+    }
+
+    menuClose?.addEventListener("click", () => toggleMenu(false));
+
+    menuOverlay?.addEventListener("click", (event) => {
+      if (event.target === menuOverlay) {
+        toggleMenu(false);
+      }
+    });
+
+    menuLinks.forEach((link) => {
+      link.addEventListener("click", () => {
+        toggleMenu(false);
+        transitionToView(link.dataset.viewTarget);
+      });
+    });
 
     initializeTheme();
     const slashes = [];
@@ -1044,7 +1336,7 @@
 
     viewTabs.forEach((tab) => {
       tab.addEventListener("click", () => {
-        setActiveView(tab.dataset.viewTarget);
+        transitionToView(tab.dataset.viewTarget);
       });
     });
 
