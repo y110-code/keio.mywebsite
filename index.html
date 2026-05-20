@@ -9,64 +9,168 @@
       box-sizing: border-box;
     }
 
+    :root {
+      color-scheme: dark;
+      --text: #f7f7f2;
+      --muted: #b9c1c9;
+      --line: rgba(255, 255, 255, 0.16);
+      --panel: rgba(8, 12, 18, 0.62);
+      --accent: #36d1dc;
+      --accent-strong: #ffb86c;
+      --shadow: rgba(0, 0, 0, 0.36);
+    }
+
     body {
+      min-height: 100vh;
       margin: 0;
+      overflow-x: hidden;
       font-family: "Helvetica Neue", Arial, sans-serif;
       line-height: 1.7;
-      color: #242424;
-      background: #f4f0e8;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 16% 12%, rgba(54, 209, 220, 0.28), transparent 32rem),
+        radial-gradient(circle at 86% 18%, rgba(255, 184, 108, 0.2), transparent 28rem),
+        linear-gradient(135deg, #070910 0%, #111827 45%, #101114 100%);
+    }
+
+    body::before {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      content: "";
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+      background-size: 54px 54px;
+      mask-image: linear-gradient(to bottom, transparent, #000 14%, #000 82%, transparent);
+      animation: gridMove 18s linear infinite;
+    }
+
+    body::after {
+      position: fixed;
+      inset: -30%;
+      z-index: -3;
+      content: "";
+      background:
+        conic-gradient(from 180deg at 50% 50%, #121827, #164e63, #3b1f45, #4a2c18, #121827);
+      filter: blur(90px);
+      opacity: 0.52;
+      animation: aurora 16s ease-in-out infinite alternate;
+    }
+
+    #motion-bg {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
     }
 
     main {
-      width: min(920px, calc(100% - 32px));
+      width: min(1040px, calc(100% - 32px));
       margin: 0 auto;
       padding: 56px 0;
     }
 
+    .hero {
+      min-height: calc(100vh - 112px);
+      display: grid;
+      align-content: center;
+      gap: 32px;
+    }
+
     .profile {
       display: grid;
-      grid-template-columns: 160px 1fr;
-      gap: 32px;
+      grid-template-columns: minmax(0, 1fr) 220px;
+      gap: 40px;
       align-items: center;
-      padding-bottom: 40px;
-      border-bottom: 1px solid #d7d0c4;
+      padding: 42px;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: var(--panel);
+      box-shadow: 0 28px 80px var(--shadow);
+      backdrop-filter: blur(18px);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0 0 18px;
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      content: "";
+      background: var(--accent);
+      box-shadow: 0 0 18px var(--accent);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(42px, 9vw, 96px);
+      line-height: 0.98;
+      letter-spacing: 0;
+    }
+
+    .lead {
+      max-width: 660px;
+      margin: 22px 0 0;
+      color: var(--muted);
+      font-size: clamp(17px, 2vw, 22px);
     }
 
     .avatar {
       display: grid;
       place-items: center;
-      width: 160px;
-      height: 160px;
-      border-radius: 50%;
-      color: #ffffff;
-      background: #2e6f73;
-      font-size: 48px;
-      font-weight: 700;
+      justify-self: end;
+      width: 220px;
+      aspect-ratio: 1;
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      border-radius: 28px;
+      color: #061117;
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.94), rgba(255, 255, 255, 0.6)),
+        radial-gradient(circle at 24% 18%, var(--accent), transparent 34%),
+        radial-gradient(circle at 82% 80%, var(--accent-strong), transparent 38%);
+      box-shadow: 0 22px 56px rgba(0, 0, 0, 0.32);
+      font-size: 72px;
+      font-weight: 800;
     }
 
-    h1 {
-      margin: 0 0 8px;
-      font-size: clamp(32px, 6vw, 56px);
-      line-height: 1.15;
-    }
-
-    .lead {
-      margin: 0;
-      color: #5a5148;
-      font-size: 18px;
+    .sections {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
     }
 
     section {
-      padding: 32px 0 0;
+      min-height: 210px;
+      padding: 24px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: rgba(8, 12, 18, 0.52);
+      box-shadow: 0 18px 60px rgba(0, 0, 0, 0.22);
+      backdrop-filter: blur(14px);
     }
 
     h2 {
       margin: 0 0 12px;
-      font-size: 22px;
+      color: #ffffff;
+      font-size: 20px;
     }
 
     p {
       margin: 0;
+      color: var(--muted);
     }
 
     ul {
@@ -74,67 +178,200 @@
       gap: 10px;
       margin: 0;
       padding-left: 20px;
+      color: var(--muted);
     }
 
     a {
-      color: #1f5f63;
+      color: var(--accent);
       font-weight: 700;
       text-decoration-thickness: 2px;
-      text-underline-offset: 4px;
+      text-underline-offset: 5px;
     }
 
-    @media (max-width: 640px) {
-      main {
-        padding: 32px 0;
+    @keyframes gridMove {
+      from {
+        background-position: 0 0;
       }
 
+      to {
+        background-position: 54px 54px;
+      }
+    }
+
+    @keyframes aurora {
+      from {
+        transform: rotate(0deg) scale(1);
+      }
+
+      to {
+        transform: rotate(18deg) scale(1.18);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+      }
+    }
+
+    @media (max-width: 820px) {
       .profile {
         grid-template-columns: 1fr;
-        gap: 20px;
+        padding: 28px;
       }
 
       .avatar {
-        width: 120px;
-        height: 120px;
-        font-size: 36px;
+        justify-self: start;
+        width: 144px;
+        border-radius: 22px;
+        font-size: 48px;
+      }
+
+      .sections {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 520px) {
+      main {
+        width: min(100% - 24px, 1040px);
+        padding: 24px 0;
+      }
+
+      .hero {
+        min-height: auto;
+        gap: 16px;
+      }
+
+      .profile,
+      section {
+        border-radius: 16px;
       }
     }
   </style>
 </head>
 <body>
+  <canvas id="motion-bg" aria-hidden="true"></canvas>
   <main>
-    <header class="profile">
-      <div class="avatar">名</div>
-      <div>
-        <h1>あなたの名前</h1>
-        <p class="lead">こんにちは。ここに短い自己紹介の一文を書きます。</p>
+    <div class="hero">
+      <header class="profile">
+        <div>
+          <p class="eyebrow">Self Introduction</p>
+          <h1>あなたの名前</h1>
+          <p class="lead">こんにちは。動きのある背景とシンプルな情報で見せる、自己紹介ページです。</p>
+        </div>
+        <div class="avatar">名</div>
+      </header>
+
+      <div class="sections">
+        <section>
+          <h2>自己紹介</h2>
+          <p>
+            はじめまして。Web制作やプログラミングに興味があります。
+            新しいことを学びながら、自分らしい作品を作っていきたいです。
+          </p>
+        </section>
+
+        <section>
+          <h2>好きなこと</h2>
+          <ul>
+            <li>音楽を聴くこと</li>
+            <li>カフェで作業すること</li>
+            <li>新しい技術を試すこと</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>連絡先</h2>
+          <p>
+            Email:
+            <a href="mailto:your.name@example.com">your.name@example.com</a>
+          </p>
+        </section>
       </div>
-    </header>
-
-    <section>
-      <h2>自己紹介</h2>
-      <p>
-        はじめまして。Web制作やプログラミングに興味があります。
-        新しいことを学びながら、自分らしい作品を作っていきたいです。
-      </p>
-    </section>
-
-    <section>
-      <h2>好きなこと</h2>
-      <ul>
-        <li>音楽を聴くこと</li>
-        <li>カフェで作業すること</li>
-        <li>新しい技術を試すこと</li>
-      </ul>
-    </section>
-
-    <section>
-      <h2>連絡先</h2>
-      <p>
-        Email:
-        <a href="mailto:your.name@example.com">your.name@example.com</a>
-      </p>
-    </section>
+    </div>
   </main>
+
+  <script>
+    const canvas = document.getElementById("motion-bg");
+    const ctx = canvas.getContext("2d");
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const particles = [];
+    const particleCount = 72;
+
+    function resizeCanvas() {
+      const ratio = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = Math.floor(window.innerWidth * ratio);
+      canvas.height = Math.floor(window.innerHeight * ratio);
+      canvas.style.width = `${window.innerWidth}px`;
+      canvas.style.height = `${window.innerHeight}px`;
+      ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+    }
+
+    function createParticles() {
+      particles.length = 0;
+      for (let i = 0; i < particleCount; i += 1) {
+        particles.push({
+          x: Math.random() * window.innerWidth,
+          y: Math.random() * window.innerHeight,
+          radius: Math.random() * 2.4 + 0.8,
+          speedX: (Math.random() - 0.5) * 0.38,
+          speedY: (Math.random() - 0.5) * 0.38,
+          hue: Math.random() > 0.55 ? 187 : 34
+        });
+      }
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+
+      particles.forEach((particle, index) => {
+        if (!reduceMotion.matches) {
+          particle.x += particle.speedX;
+          particle.y += particle.speedY;
+        }
+
+        if (particle.x < -20) particle.x = window.innerWidth + 20;
+        if (particle.x > window.innerWidth + 20) particle.x = -20;
+        if (particle.y < -20) particle.y = window.innerHeight + 20;
+        if (particle.y > window.innerHeight + 20) particle.y = -20;
+
+        ctx.beginPath();
+        ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
+        ctx.fillStyle = `hsla(${particle.hue}, 90%, 68%, 0.72)`;
+        ctx.shadowBlur = 16;
+        ctx.shadowColor = `hsla(${particle.hue}, 90%, 68%, 0.8)`;
+        ctx.fill();
+        ctx.shadowBlur = 0;
+
+        for (let j = index + 1; j < particles.length; j += 1) {
+          const other = particles[j];
+          const distance = Math.hypot(particle.x - other.x, particle.y - other.y);
+          if (distance < 128) {
+            ctx.beginPath();
+            ctx.moveTo(particle.x, particle.y);
+            ctx.lineTo(other.x, other.y);
+            ctx.strokeStyle = `rgba(255, 255, 255, ${0.12 * (1 - distance / 128)})`;
+            ctx.lineWidth = 1;
+            ctx.stroke();
+          }
+        }
+      });
+
+      requestAnimationFrame(draw);
+    }
+
+    resizeCanvas();
+    createParticles();
+    draw();
+    window.addEventListener("resize", () => {
+      resizeCanvas();
+      createParticles();
+    });
+  </script>
 </body>
 </html>
